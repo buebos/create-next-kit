@@ -1,0 +1,10 @@
+# Source code should not be uploaded to the package
+src
+
+# Gitignore is only useful for the actual repo
+.gitignore
+
+# This files are only for development matters
+tsconfig.json
+.prettierrc
+TODO.md

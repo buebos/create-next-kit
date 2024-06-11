@@ -1,0 +1,5 @@
+# Dependencies should be downloaded from package.json config once the repo is cloned or pulled
+node_modules
+
+# Distribution should only be uploaded to npm
+dist

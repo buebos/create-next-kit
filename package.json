@@ -1,0 +1,39 @@
+{
+    "name": "create-next-extra",
+    "version": "1.0.0",
+    "description": "A create-next-app wrapper that allows to setup docker, stripe-cli and other addons.",
+    "main": "dist/index.js",
+    "bin": "dist/index.js",
+    "scripts": {
+        "start": "npm exec create-next-extra",
+        "dev": "tsc --project tsconfig.json --watch",
+        "build": "tsc --project tsconfig.json",
+        "prepack": "npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/buebos/create-next-extra.git"
+    },
+    "keywords": [
+        "nextjs",
+        "cli",
+        "create"
+    ],
+    "author": "Gael Herrera",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/buebos/create-next-extra/issues"
+    },
+    "homepage": "https://github.com/buebos/create-next-extra#readme",
+    "dependencies": {
+        "commander": "^12.1.0",
+        "create-next-app": "latest",
+        "picocolors": "^1.0.1",
+        "prompts": "^2.4.2"
+    },
+    "devDependencies": {
+        "@types/node": "^20.14.2",
+        "@types/prompts": "^2.4.9",
+        "typescript": "^5.4.5"
+    }
+}
