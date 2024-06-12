@@ -5,6 +5,10 @@ src
 .gitignore
 
 # This files are only for development matters
-tsconfig.json
 .prettierrc
 TODO.md
+.gitignore
+
+# Files used for typescript development
+tsconfig.json
+globals.d.ts

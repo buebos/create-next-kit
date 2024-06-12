@@ -1,32 +1,45 @@
 #!/usr/bin/env node
 
 import { spawn } from "child_process";
-import { getDbsRes } from "./src/db/getDbsRes";
 import { handleError } from "./src/handleError";
-import clinput from "./src/util/clinput";
-import type { ConfigCreateNextStack } from "./src/util/config";
+import { clinput, clinputChoices } from "./src/util/clinput";
 import logger from "./src/util/logger";
+
+import { setupStack } from "./src/setupStack";
 
 async function main() {
     /**
      * This will trigger some prompts on the terminal
      * with the clinput config on each field.
      */
-    const config: ConfigCreateNextStack = {
+    const config: CreateNextStack.Config = {
         name: await clinput({
             type: "string",
             message: "What's your project name?",
             fallback: "my-app",
         }),
-        docker: await clinput({
-            type: "boolean",
-            message: "Would you like to use docker?",
-            fallback: true,
-        }),
-        dbs: await getDbsRes(),
+        categories: {
+            container: {
+                docker: await clinput({
+                    type: "boolean",
+                    message: "Would you like to use docker?",
+                    fallback: true,
+                }),
+            },
+            db: await clinputChoices("db"),
+            orm: await clinputChoices("orm"),
+            api: await clinputChoices("api"),
+            oauth: await clinputChoices("oauth"),
+            lib: await clinputChoices("lib"),
+        },
     };
 
-    logger.checkpoint(`Loading create-next-app for '${config.name}'...`);
+    logger
+        .line()
+        .checkpoint(
+            `Loading create-next-app for '${config.name}', please wait a sec...`
+        )
+        .line();
 
     /**
      * Spawns the child process of the create-next-app
@@ -60,15 +73,13 @@ async function main() {
      */
     process.stdin.pipe(createNextApp.stdin);
 
-    createNextApp.on("error", () => {
-        handleError();
-    });
-    createNextApp.on("close", (status) => {
+    createNextApp.on("error", handleError);
+    createNextApp.on("close", async (status) => {
         if (status != 0) {
-            return handleError();
+            return;
         }
 
-        logger.checkpoint(`Creating tech stack for '${config.name}'...`);
+        await setupStack(config);
     });
 }
 

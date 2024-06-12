@@ -2,7 +2,11 @@
     "compilerOptions": {
         "rootDir": ".",
         "outDir": "./dist",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "types": ["./globals.d.ts"],
+        "declaration": true,
+        "strict": true
     },
-    "files": ["./index.ts"]
+    "files": ["./index.ts"],
+    "include": ["./__tests__/**/*.ts"]
 }

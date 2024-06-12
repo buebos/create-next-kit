@@ -1,33 +1,18 @@
 import prompts from "prompts";
+import { getTechOptions } from "../util/core";
 
-type PromptType = "string" | "boolean" | "multiselect";
-
-type PromptTypeMap = {
-    string: {
-        return: string;
-        fallback: string;
-    };
-    boolean: {
-        return: boolean;
-        fallback: boolean;
-    };
-    multiselect: {
-        return: { title: string; value: string }[];
-        fallback: never;
-    };
-};
-
-type ClinputConfig<T extends PromptType> = T extends "multiselect"
-    ? {
-          type: T;
-          message: string;
-          choices?: { title: string; value: string }[];
-      }
-    : {
-          type: T;
-          message: string;
-          fallback: PromptTypeMap[T]["fallback"];
-      };
+type ClinputConfig<T extends CreateNextStack.Prompt.Types> =
+    T extends "multiselect"
+        ? {
+              type: T;
+              message: string;
+              choices?: { title: string; value: string }[];
+          }
+        : {
+              type: T;
+              message: string;
+              fallback: CreateNextStack.Prompt.TypeMap[T]["fallback"];
+          };
 
 const promptsLibTypeMap = {
     string: "text",
@@ -51,9 +36,9 @@ function handleAbort(promptState: { aborted: boolean }) {
  *
  * @returns The parsed response from the user.
  */
-async function clinput<T extends PromptType>(
+export async function clinput<T extends CreateNextStack.Prompt.Types>(
     config: ClinputConfig<T>
-): Promise<PromptTypeMap[T]["return"]> {
+): Promise<CreateNextStack.Prompt.TypeMap[T]["returns"]> {
     const prompt: prompts.PromptObject<"res"> = {
         name: "res",
         type: promptsLibTypeMap[config.type],
@@ -79,4 +64,22 @@ async function clinput<T extends PromptType>(
     return input.res;
 }
 
-export default clinput;
+export async function clinputChoices<
+    T extends keyof Required<CreateNextStack.TechCategory>
+>(groupKey: T) {
+    const res: Required<CreateNextStack.TechCategory>[T] = {};
+
+    const techs = await clinput({
+        type: "multiselect",
+        message:
+            "What " + groupKey.toUpperCase() + "s" + " do you want to include?",
+        choices: getTechOptions(groupKey),
+    });
+
+    for (const tech of techs) {
+        /** Dunno why but i had to do this to avoid type error */
+        (res[tech as keyof typeof res] as any) = true;
+    }
+
+    return res;
+}
