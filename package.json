@@ -1,18 +1,18 @@
 {
-    "name": "create-next-extra",
+    "name": "create-next-stack",
     "version": "1.0.0",
     "description": "A create-next-app wrapper that allows to setup docker, stripe-cli and other addons.",
     "main": "dist/index.js",
     "bin": "dist/index.js",
     "scripts": {
-        "start": "npm exec create-next-extra",
+        "start": "npm exec create-next-stack",
         "dev": "tsc --project tsconfig.json --watch",
         "build": "tsc --project tsconfig.json",
         "prepack": "npm run build"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/buebos/create-next-extra.git"
+        "url": "git+https://github.com/buebos/create-next-stack.git"
     },
     "keywords": [
         "nextjs",
@@ -22,9 +22,9 @@
     "author": "Gael Herrera",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/buebos/create-next-extra/issues"
+        "url": "https://github.com/buebos/create-next-stack/issues"
     },
-    "homepage": "https://github.com/buebos/create-next-extra#readme",
+    "homepage": "https://github.com/buebos/create-next-stack#readme",
     "dependencies": {
         "commander": "^12.1.0",
         "create-next-app": "latest",

@@ -1,25 +1,29 @@
 #!/usr/bin/env node
 
-import { promptBool, promptString } from "./src/util/prompt";
-
 import { spawn } from "child_process";
+import { getDbsRes } from "./src/db/getDbsRes";
 import { handleError } from "./src/handleError";
+import clinput from "./src/util/clinput";
+import type { ConfigCreateNextStack } from "./src/util/config";
 import logger from "./src/util/logger";
-import type { ConfigCreateNextExtra } from "./src/util/types";
 
 async function main() {
-    /** TODO: Fix this to a builder or factory like pattern maybe? */
-    const config: ConfigCreateNextExtra = {
-        name: await promptString("What's your project name?", "my-app"),
-        docker: await promptBool(
-            "Would you like to add docker config files?",
-            true
-        ),
-        stripe: await promptBool(
-            "Would you like to add Stripe API and CLI?",
-            false
-        ),
-        dbs: ["postgres"],
+    /**
+     * This will trigger some prompts on the terminal
+     * with the clinput config on each field.
+     */
+    const config: ConfigCreateNextStack = {
+        name: await clinput({
+            type: "string",
+            message: "What's your project name?",
+            fallback: "my-app",
+        }),
+        docker: await clinput({
+            type: "boolean",
+            message: "Would you like to use docker?",
+            fallback: true,
+        }),
+        dbs: await getDbsRes(),
     };
 
     logger.checkpoint(`Loading create-next-app for '${config.name}'...`);
@@ -39,7 +43,8 @@ async function main() {
     );
 
     /**
-     * TLDR: This line is needed to clear render correctly.
+     * TLDR: This line is needed to render correctly the prompts from
+     * create-next-app process.
      *
      * Very important. It seems that the output of create-next-app
      * command needs to write raw bytes to the main process stdin to
@@ -63,7 +68,7 @@ async function main() {
             return handleError();
         }
 
-        logger.checkpoint(`Adding extras to '${config.name}'...`);
+        logger.checkpoint(`Creating tech stack for '${config.name}'...`);
     });
 }
 
