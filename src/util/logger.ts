@@ -1,4 +1,4 @@
-import { bold, green, white } from "picocolors";
+import { bold, green, white, red } from "picocolors";
 
 const logger = {
     line() {
@@ -6,10 +6,18 @@ const logger = {
 
         return this;
     },
-    checkpoint(...messages: unknown[]) {
+    checkmark(...messages: unknown[]) {
         console.log(
             bold(green("√")),
             bold(green(messages.map((msg) => String(msg)).join(" ")))
+        );
+
+        return this;
+    },
+    error(...messages: unknown[]) {
+        console.error(
+            bold(red("x")),
+            bold(red(messages.map((msg) => String(msg)).join(" ")))
         );
 
         return this;
@@ -43,7 +51,7 @@ const logger = {
              */
             // process.stdout.write(cursorEsc.show);
 
-            this.checkpoint(finishMessage ?? message);
+            this.checkmark(finishMessage ?? message);
             this.loadingFinished = (_message?: string) => {
                 return this;
             };

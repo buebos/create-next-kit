@@ -1,5 +1,4 @@
 import prompts from "prompts";
-import { getTechOptions } from "../util/core";
 
 type ClinputConfig<T extends CreateNextStack.Prompt.Types> =
     T extends "multiselect"
@@ -62,24 +61,4 @@ export async function clinput<T extends CreateNextStack.Prompt.Types>(
     const input = await prompts(prompt);
 
     return input.res;
-}
-
-export async function clinputChoices<
-    T extends keyof Required<CreateNextStack.TechCategory>
->(groupKey: T) {
-    const res: Required<CreateNextStack.TechCategory>[T] = {};
-
-    const techs = await clinput({
-        type: "multiselect",
-        message:
-            "What " + groupKey.toUpperCase() + "s" + " do you want to include?",
-        choices: getTechOptions(groupKey),
-    });
-
-    for (const tech of techs) {
-        /** Dunno why but i had to do this to avoid type error */
-        (res[tech as keyof typeof res] as any) = true;
-    }
-
-    return res;
 }

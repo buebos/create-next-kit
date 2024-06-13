@@ -1,43 +1,20 @@
 declare namespace CreateNextStack {
-    type Config = {
-        name: string;
-
-        categories: {
-            container?: {
-                docker?: boolean;
-            };
-
-            db?: {
-                postgres?: boolean;
-                mysql?: boolean;
-                redis?: boolean;
-            };
-            orm?: {
-                prisma?: boolean;
-            };
-
-            api?: {
-                stripe?: boolean;
-                googleMaps?: boolean;
-            };
-            oauth?: {
-                google?: boolean;
-                github?: boolean;
-                facebook?: boolean;
-            };
-
-            lib?: {
-                shadcnui?: boolean;
-            };
-        };
+    type Category = {
+        id: string;
+        label: string;
     };
 
-    type TechCategory = Config["categories"];
+    type Tool = {
+        id: string;
+        label: string;
+        group: string;
+        docker_image_id?: string;
+    };
 
-    type TechTitleMap = {
-        [key in keyof Required<Config["categories"]>]: {
-            [tech in keyof Required<Config["categories"][key]>]: string;
-        };
+    type Context = {
+        name: string;
+        external_source_strategy: "docker" | "url";
+        tools: Tool[];
     };
 
     namespace Prompt {

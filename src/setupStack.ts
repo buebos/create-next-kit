@@ -1,16 +1,19 @@
 import logger from "./util/logger";
+import { handleDockerSetup } from "./docker/handleDockerSetup";
 
-export async function setupStack(config: CreateNextStack.Config) {
+export async function setupStack(ctx: CreateNextStack.Context) {
     try {
-        logger.loading(`Creating tech stack for '${config.name}'...`);
+        logger.loading(`Creating tech stack for '${ctx.name}'...`);
 
-        if (config.categories.container?.docker) {
+        if (ctx.external_source_strategy == "docker") {
+            await handleDockerSetup(ctx);
         }
 
         logger.loadingFinished(
-            `NextJS app '${config.name}' with tech stack created`
+            `NextJS app '${ctx.name}' with tech stack created`
         );
     } catch (e) {
         logger.loadingFinished();
+        logger.error(e);
     }
 }

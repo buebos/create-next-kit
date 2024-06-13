@@ -12,3 +12,6 @@ TODO.md
 # Files used for typescript development
 tsconfig.json
 globals.d.ts
+
+# Projects generated from development testing
+generated

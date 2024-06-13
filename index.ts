@@ -1,43 +1,59 @@
 #!/usr/bin/env node
 
 import { spawn } from "child_process";
+import groups from "./data/group.json";
+import tools from "./data/tool.json";
 import { handleError } from "./src/handleError";
-import { clinput, clinputChoices } from "./src/util/clinput";
-import logger from "./src/util/logger";
-
 import { setupStack } from "./src/setupStack";
+import { clinput } from "./src/util/clinput";
+import logger from "./src/util/logger";
 
 async function main() {
     /**
      * This will trigger some prompts on the terminal
      * with the clinput config on each field.
      */
-    const config: CreateNextStack.Config = {
+    const context: CreateNextStack.Context = {
         name: await clinput({
             type: "string",
             message: "What's your project name?",
             fallback: "my-app",
         }),
-        categories: {
-            container: {
-                docker: await clinput({
-                    type: "boolean",
-                    message: "Would you like to use docker?",
-                    fallback: true,
-                }),
-            },
-            db: await clinputChoices("db"),
-            orm: await clinputChoices("orm"),
-            api: await clinputChoices("api"),
-            oauth: await clinputChoices("oauth"),
-            lib: await clinputChoices("lib"),
-        },
+        external_source_strategy: "url",
+        tools: [],
     };
+
+    for await (const cat of groups) {
+        const techs = await clinput({
+            type: "multiselect",
+            message: "What " + cat.label + " do you want to include?",
+            choices: tools
+                .filter((tool) => tool.group == cat.id)
+                .map((tool) => {
+                    return {
+                        title: tool.label,
+                        value: tool.id,
+                    };
+                }),
+        });
+
+        for (const tech of techs) {
+            context.tools.push(tools.find((tool) => tool.id == tech)!);
+        }
+    }
+
+    if (context.tools.some((tool) => tool.id == "docker")) {
+        context.external_source_strategy = "docker";
+    }
+
+    if (process.env.NODE_ENV === "development") {
+        context.name = "generated/" + context.name;
+    }
 
     logger
         .line()
-        .checkpoint(
-            `Loading create-next-app for '${config.name}', please wait a sec...`
+        .checkmark(
+            `Loading create-next-app for '${context.name}', please wait a sec...`
         )
         .line();
 
@@ -50,7 +66,7 @@ async function main() {
         /** The command string in windows is different */
         /^win/.test(process.platform) ? "npx.cmd" : "npx",
         /** Pass in the package to run */
-        ["create-next-app", config.name],
+        ["create-next-app", context.name],
         /** Configure io to link to the current main process */
         { stdio: ["pipe", process.stdout, process.stderr] }
     );
@@ -79,7 +95,7 @@ async function main() {
             return;
         }
 
-        await setupStack(config);
+        await setupStack(context);
     });
 }
 

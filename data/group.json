@@ -1,0 +1,37 @@
+[
+    {
+        "id": "container",
+        "label": "Container Managers",
+        "source": "external"
+    },
+    {
+        "id": "database",
+        "label": "Databases",
+        "source": "external"
+    },
+    {
+        "id": "orm",
+        "label": "ORMs",
+        "source": "external"
+    },
+    {
+        "id": "api_client",
+        "label": "API Clients",
+        "source": "npm"
+    },
+    {
+        "id": "oauth_client",
+        "label": "OAuth Clients",
+        "source": "npm"
+    },
+    {
+        "id": "component_lib",
+        "label": "Component Libraries",
+        "source": "npm"
+    },
+    {
+        "id": "stripe",
+        "label": "Stripe Tools",
+        "source": "mixed"
+    }
+]

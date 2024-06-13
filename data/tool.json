@@ -1,0 +1,74 @@
+[
+    {
+        "id": "docker",
+        "label": "Docker",
+        "group": "container"
+    },
+
+    {
+        "id": "mysql",
+        "label": "MySQL",
+        "group": "database",
+        "docker_image_id": "mysql"
+    },
+    {
+        "id": "postgres",
+        "label": "PostgreSQL",
+        "group": "database",
+        "docker_image_id": "postgres"
+    },
+    {
+        "id": "redis",
+        "label": "Redis",
+        "group": "database",
+        "docker_image_id": "redis"
+    },
+
+    {
+        "id": "prisma",
+        "label": "Prisma",
+        "group": "orm"
+    },
+
+    {
+        "id": "stripe_client",
+        "label": "Stripe Client Library",
+        "group": "stripe",
+        "docker_image_id": "stripe/stripe-cli"
+    },
+    {
+        "id": "stripe_cli",
+        "label": "Stripe CLI",
+        "group": "stripe",
+        "source_type": "external",
+        "docker_image_id": "stripe/stripe-cli"
+    },
+
+    {
+        "id": "google_maps",
+        "label": "Google Maps",
+        "group": "api_client"
+    },
+
+    {
+        "id": "facebook_auth",
+        "label": "Facebook",
+        "group": "oauth_client"
+    },
+    {
+        "id": "github_auth",
+        "label": "Github",
+        "group": "oauth_client"
+    },
+    {
+        "id": "google_auth",
+        "label": "Google",
+        "group": "oauth_client"
+    },
+
+    {
+        "id": "shadcn_ui",
+        "label": "ShadCN UI",
+        "group": "component_lib"
+    }
+]

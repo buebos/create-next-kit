@@ -3,3 +3,6 @@ node_modules
 
 # Distribution should only be uploaded to npm
 dist
+
+# Projects generated from testing
+generated
