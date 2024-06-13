@@ -1,24 +1,40 @@
-import { bold, green, white, red } from "picocolors";
+import { bold, green, white, red, yellow } from "picocolors";
 
 const logger = {
     line() {
-        console.log();
+        process.stdout.write("\n");
 
         return this;
     },
     checkmark(...messages: unknown[]) {
-        console.log(
-            bold(green("√")),
-            bold(green(messages.map((msg) => String(msg)).join(" ")))
+        process.stdout.write(
+            bold(green("√")) +
+                " " +
+                bold(green(messages.map((msg) => String(msg)).join(" ")))
         );
+
+        this.line();
+
+        return this;
+    },
+    warn(...messages: unknown[]) {
+        process.stdout.write(
+            bold(yellow("!")) +
+                " " +
+                bold(yellow(messages.map((msg) => String(msg)).join(" ")))
+        );
+
+        this.line();
 
         return this;
     },
     error(...messages: unknown[]) {
-        console.error(
-            bold(red("x")),
-            bold(red(messages.map((msg) => String(msg)).join(" ")))
+        process.stdout.write(
+            bold(red("x")) +
+                " " +
+                bold(red(messages.map((msg) => String(msg)).join(" ")))
         );
+        this.line();
 
         return this;
     },
@@ -39,7 +55,10 @@ const logger = {
             i = i >= characters.length ? 0 : i;
         }, 150);
 
-        this.loadingFinished = (finishMessage?: string) => {
+        this.loadingFinished = (
+            finishMessage?: string,
+            status: "success" | "error" = "success"
+        ) => {
             clearInterval(timer);
 
             process.stdout.write("\r");
@@ -51,8 +70,16 @@ const logger = {
              */
             // process.stdout.write(cursorEsc.show);
 
-            this.checkmark(finishMessage ?? message);
-            this.loadingFinished = (_message?: string) => {
+            if (status == "success") {
+                this.checkmark(finishMessage ?? message);
+            } else {
+                this.error(finishMessage ?? message);
+            }
+
+            this.loadingFinished = (
+                _message?: string,
+                _status: "success" | "error" = "success"
+            ) => {
                 return this;
             };
 
@@ -61,7 +88,10 @@ const logger = {
 
         return this;
     },
-    loadingFinished(_message?: string) {
+    loadingFinished(
+        _message?: string,
+        _status: "success" | "error" = "success"
+    ) {
         return this;
     },
 };

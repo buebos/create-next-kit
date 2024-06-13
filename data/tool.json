@@ -27,13 +27,15 @@
     {
         "id": "prisma",
         "label": "Prisma",
-        "group": "orm"
+        "group": "orm",
+        "npm_package_id": ""
     },
 
     {
         "id": "stripe_client",
         "label": "Stripe Client Library",
         "group": "stripe",
+        "source_type": "npm",
         "docker_image_id": "stripe/stripe-cli"
     },
     {

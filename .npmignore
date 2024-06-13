@@ -13,5 +13,8 @@ TODO.md
 tsconfig.json
 globals.d.ts
 
+# Ignore all keys and variables private to local machine
+.env
+
 # Projects generated from development testing
 generated

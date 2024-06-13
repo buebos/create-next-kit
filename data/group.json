@@ -2,36 +2,36 @@
     {
         "id": "container",
         "label": "Container Managers",
-        "source": "external"
+        "source_type": "manual"
     },
     {
         "id": "database",
         "label": "Databases",
-        "source": "external"
+        "source_type": "external"
     },
     {
         "id": "orm",
         "label": "ORMs",
-        "source": "external"
+        "source_type": "npm"
     },
     {
         "id": "api_client",
         "label": "API Clients",
-        "source": "npm"
+        "source_type": "npm"
     },
     {
         "id": "oauth_client",
         "label": "OAuth Clients",
-        "source": "npm"
+        "source_type": "npm"
     },
     {
         "id": "component_lib",
         "label": "Component Libraries",
-        "source": "npm"
+        "source_type": "npm"
     },
     {
         "id": "stripe",
         "label": "Stripe Tools",
-        "source": "mixed"
+        "source_type": "mixed"
     }
 ]

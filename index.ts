@@ -1,59 +1,22 @@
 #!/usr/bin/env node
 
 import { spawn } from "child_process";
-import groups from "./data/group.json";
-import tools from "./data/tool.json";
-import { handleError } from "./src/handleError";
-import { setupStack } from "./src/setupStack";
-import { clinput } from "./src/util/clinput";
+import getAppInputsInit from "./src/getAppInputsInit";
+import setupTools from "./src/setupTools";
 import logger from "./src/util/logger";
 
 async function main() {
     /**
      * This will trigger some prompts on the terminal
-     * with the clinput config on each field.
+     * to config the app based on the tools registered
+     * on the data folder in root project.
      */
-    const context: CreateNextStack.Context = {
-        name: await clinput({
-            type: "string",
-            message: "What's your project name?",
-            fallback: "my-app",
-        }),
-        external_source_strategy: "url",
-        tools: [],
-    };
-
-    for await (const cat of groups) {
-        const techs = await clinput({
-            type: "multiselect",
-            message: "What " + cat.label + " do you want to include?",
-            choices: tools
-                .filter((tool) => tool.group == cat.id)
-                .map((tool) => {
-                    return {
-                        title: tool.label,
-                        value: tool.id,
-                    };
-                }),
-        });
-
-        for (const tech of techs) {
-            context.tools.push(tools.find((tool) => tool.id == tech)!);
-        }
-    }
-
-    if (context.tools.some((tool) => tool.id == "docker")) {
-        context.external_source_strategy = "docker";
-    }
-
-    if (process.env.NODE_ENV === "development") {
-        context.name = "generated/" + context.name;
-    }
+    const app: CreateNextStack.App = await getAppInputsInit();
 
     logger
         .line()
         .checkmark(
-            `Loading create-next-app for '${context.name}', please wait a sec...`
+            `Loading create-next-app for '${app.project.name}', please wait a sec...`
         )
         .line();
 
@@ -66,7 +29,7 @@ async function main() {
         /** The command string in windows is different */
         /^win/.test(process.platform) ? "npx.cmd" : "npx",
         /** Pass in the package to run */
-        ["create-next-app", context.name],
+        ["create-next-app", app.project.dir],
         /** Configure io to link to the current main process */
         { stdio: ["pipe", process.stdout, process.stderr] }
     );
@@ -89,13 +52,12 @@ async function main() {
      */
     process.stdin.pipe(createNextApp.stdin);
 
-    createNextApp.on("error", handleError);
     createNextApp.on("close", async (status) => {
         if (status != 0) {
             return;
         }
 
-        await setupStack(context);
+        await setupTools(app);
     });
 }
 

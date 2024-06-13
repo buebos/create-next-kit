@@ -3,11 +3,12 @@
         "rootDir": ".",
         "outDir": "./dist",
         "esModuleInterop": true,
-        "types": ["./globals.d.ts"],
         "declaration": true,
         "strict": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "isolatedModules": false,
+        "skipLibCheck": true
     },
-    "files": ["./index.ts"],
-    "include": ["./__tests__/**/*.ts"]
+    "files": ["index.ts"],
+    "include": ["./src/**/*.ts", "./__tests__/**/*.ts", "globals.d.ts"]
 }

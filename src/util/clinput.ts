@@ -1,7 +1,7 @@
 import prompts from "prompts";
 
 type ClinputConfig<T extends CreateNextStack.Prompt.Types> =
-    T extends "multiselect"
+    (T extends "multiselect"
         ? {
               type: T;
               message: string;
@@ -11,7 +11,9 @@ type ClinputConfig<T extends CreateNextStack.Prompt.Types> =
               type: T;
               message: string;
               fallback: CreateNextStack.Prompt.TypeMap[T]["fallback"];
-          };
+          }) & {
+        validator?: (input: unknown) => boolean;
+    };
 
 const promptsLibTypeMap = {
     string: "text",
@@ -43,6 +45,7 @@ export async function clinput<T extends CreateNextStack.Prompt.Types>(
         type: promptsLibTypeMap[config.type],
         onState: handleAbort,
         message: config.message,
+        validate: config.validator,
     };
 
     if (config.type == "boolean") {

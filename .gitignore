@@ -6,3 +6,7 @@ dist
 
 # Projects generated from testing
 generated
+
+# Ignore all keys and variables private to local machine
+# (mainly in case API keys are added).
+.env

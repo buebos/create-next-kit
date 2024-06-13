@@ -18,7 +18,7 @@
     "keywords": [
         "nextjs",
         "cli",
-        "create"
+        "create-next-app"
     ],
     "author": "Gael Herrera",
     "license": "ISC",
@@ -27,8 +27,10 @@
     },
     "homepage": "https://github.com/buebos/create-next-stack#readme",
     "dependencies": {
+        "adm-zip": "^0.5.14",
         "commander": "^12.1.0",
         "create-next-app": "latest",
+        "follow-redirects": "^1.15.6",
         "picocolors": "^1.0.1",
         "prompts": "^2.4.2"
     },
@@ -36,6 +38,8 @@
         "@babel/preset-env": "^7.24.7",
         "@babel/preset-typescript": "^7.24.7",
         "@jest/globals": "^29.7.0",
+        "@types/adm-zip": "^0.5.5",
+        "@types/follow-redirects": "^1.14.4",
         "@types/node": "^20.14.2",
         "@types/prompts": "^2.4.9",
         "concurrently": "^8.2.2",
