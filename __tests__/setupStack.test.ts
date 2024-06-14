@@ -1,5 +1,5 @@
 import { describe, test } from "@jest/globals";
-import { setupTools } from "../src/setupTools";
+import setupTools from "../src/setupTools";
 
 describe("setupStack", () => {
     test("next stack setup with config goes ok", async () => {

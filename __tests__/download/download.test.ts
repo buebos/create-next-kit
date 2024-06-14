@@ -23,7 +23,11 @@ describe("download", () => {
     test(
         "download ok",
         async () => {
-            await download(source.url, DOWNLOAD_PATH, tool.id + ".zip");
+            await download(
+                source.url,
+                DOWNLOAD_PATH,
+                tool.id + "." + source.file_extension
+            );
         },
         1_000 * 60 * 10
     );

@@ -7,7 +7,9 @@
         "strict": true,
         "resolveJsonModule": true,
         "isolatedModules": false,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "target": "ES5",
+        "module": "NodeNext"
     },
     "files": ["index.ts"],
     "include": ["./src/**/*.ts", "./__tests__/**/*.ts", "globals.d.ts"]

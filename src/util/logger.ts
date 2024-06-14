@@ -28,12 +28,35 @@ const logger = {
 
         return this;
     },
-    error(...messages: unknown[]) {
-        process.stdout.write(
-            bold(red("x")) +
-                " " +
-                bold(red(messages.map((msg) => String(msg)).join(" ")))
-        );
+    error(e: unknown) {
+        const prefix = bold(red("x")) + " ";
+        let message = "An unexpected error ocurred";
+
+        switch (typeof e) {
+            case "string": {
+                break;
+            }
+            case "object": {
+                if (!e) {
+                    break;
+                }
+
+                if (!("message" in e)) {
+                    break;
+                }
+
+                if (typeof e.message !== "string") {
+                    message = String(e.message);
+                } else {
+                    message = e.message;
+                }
+            }
+            default:
+                break;
+        }
+
+        process.stdout.write(prefix + message);
+
         this.line();
 
         return this;

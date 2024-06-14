@@ -11,8 +11,6 @@ async function download(url: string, dir: string, filename: string) {
 
     const res = await new Promise<{ success: boolean; error?: Error }>(
         (resolve, reject) => {
-            let fileInfo: Record<string, any> | null = null;
-
             const request = https.get(url, async (response) => {
                 if (response.statusCode !== 200) {
                     unlink(filepath, () => {
@@ -24,14 +22,6 @@ async function download(url: string, dir: string, filename: string) {
                     });
                     return;
                 }
-
-                fileInfo = {
-                    mime: response.headers["content-type"],
-                    size: parseInt(
-                        response.headers["content-length"] ?? "0",
-                        10
-                    ),
-                };
 
                 response.pipe(file);
             });
