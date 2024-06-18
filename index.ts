@@ -2,7 +2,7 @@
 
 import { spawn } from "child_process";
 import getAppInputsInit from "./src/getAppInputsInit";
-import setupTools from "./src/setupTools";
+import setupAppTools from "./src/setupAppTools";
 import logger from "./src/util/logger";
 
 async function main() {
@@ -58,7 +58,7 @@ async function main() {
                 return;
             }
 
-            await setupTools(app);
+            await setupAppTools(app);
         });
     } catch (e) {
         logger.error(e);

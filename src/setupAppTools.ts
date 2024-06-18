@@ -1,9 +1,9 @@
-import handleDockerSetup from "./docker/handleDockerSetup";
+import setupDocker from "./docker/setup";
 
-async function setupTools(app: CreateNextStack.App) {
+async function setupAppTools(app: CreateNextStack.App) {
     switch (app.external_source_strategy) {
         case "docker": {
-            await handleDockerSetup(app);
+            await setupDocker(app);
         }
         case "url": {
             throw new Error("Unimplemented external source strategy for url");
@@ -13,4 +13,4 @@ async function setupTools(app: CreateNextStack.App) {
     }
 }
 
-export default setupTools;
+export default setupAppTools;

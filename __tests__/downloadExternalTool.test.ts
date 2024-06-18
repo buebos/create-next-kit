@@ -1,13 +1,13 @@
 import { describe, test } from "@jest/globals";
 import tools from "../data/tool.json";
-import downloadExternalTool from "../src/external/downloadExternalTool";
+import download from "../src/tool/download";
 import path from "path";
 
 describe("downloadExternalTool", () => {
     test(
         "external tool download ok",
         async () => {
-            await downloadExternalTool(
+            await download(
                 {
                     project: {
                         name: "my-app",

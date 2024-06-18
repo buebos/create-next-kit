@@ -1,9 +1,9 @@
 import { describe, test } from "@jest/globals";
-import setupTools from "../src/setupTools";
+import setupAppTools from "../src/setupAppTools";
 
 describe("setupStack", () => {
     test("next stack setup with config goes ok", async () => {
-        await setupTools({
+        await setupAppTools({
             project: {
                 name: "my-app",
                 dir: "generated/my-app",

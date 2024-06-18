@@ -1,7 +1,6 @@
 import { unlink } from "fs/promises";
 import path from "path";
-import sources from "../../data/tool_external_source.json";
-import download from "../util/file/download";
+import downloadFile from "../util/file/download";
 import unzip from "../util/file/unzip";
 import logger from "../util/logger";
 import { OS_LABEL } from "../util/os";
@@ -9,10 +8,7 @@ import getToolSource from "../util/getToolSource";
 
 const EXTERNAL_TOOLS_DIR = "resource";
 
-async function downloadExternalTool(
-    app: CreateNextStack.App,
-    tool: CreateNextStack.Tool
-) {
+async function download(app: CreateNextStack.App, tool: CreateNextStack.Tool) {
     if (!OS_LABEL) {
         throw new Error(
             `Could not download external tool since your OS (${process.platform}) does not matches any of the supported platforms.`
@@ -32,7 +28,7 @@ async function downloadExternalTool(
 
     logger.loading("Downloading " + tool.label + " from " + source.url);
 
-    await download(source.url, dir, filename);
+    await downloadFile(source.url, dir, filename);
 
     logger.loadingFinished("Downloaded " + tool.label + " from " + source.url);
 
@@ -57,4 +53,4 @@ export function getExternalToolPath(
     return path.join(app.project.dir, EXTERNAL_TOOLS_DIR, tool.group);
 }
 
-export default downloadExternalTool;
+export default download;

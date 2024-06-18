@@ -43,5 +43,19 @@ namespace CreateNextStack {
                 fallback: never;
             };
         };
+
+        type Config<T extends Types> = (T extends "multiselect"
+            ? {
+                  type: T;
+                  message: string;
+                  choices?: { title: string; value: string }[];
+              }
+            : {
+                  type: T;
+                  message: string;
+                  fallback: TypeMap[T]["fallback"];
+              }) & {
+            validator?: (input: unknown) => boolean;
+        };
     }
 }

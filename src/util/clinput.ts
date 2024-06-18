@@ -1,20 +1,5 @@
 import prompts from "prompts";
 
-type ClinputConfig<T extends CreateNextStack.Prompt.Types> =
-    (T extends "multiselect"
-        ? {
-              type: T;
-              message: string;
-              choices?: { title: string; value: string }[];
-          }
-        : {
-              type: T;
-              message: string;
-              fallback: CreateNextStack.Prompt.TypeMap[T]["fallback"];
-          }) & {
-        validator?: (input: unknown) => boolean;
-    };
-
 const promptsLibTypeMap = {
     string: "text",
     boolean: "toggle",
@@ -38,7 +23,7 @@ function handleAbort(promptState: { aborted: boolean }) {
  * @returns The parsed response from the user.
  */
 export async function clinput<T extends CreateNextStack.Prompt.Types>(
-    config: ClinputConfig<T>
+    config: CreateNextStack.Prompt.Config<T>
 ): Promise<CreateNextStack.Prompt.TypeMap[T]["returns"]> {
     const prompt: prompts.PromptObject<"res"> = {
         name: "res",
