@@ -22,7 +22,7 @@ function handleAbort(promptState: { aborted: boolean }) {
  *
  * @returns The parsed response from the user.
  */
-export async function clinput<T extends CreateNextStack.Prompt.Types>(
+export async function prompt<T extends CreateNextStack.Prompt.Types>(
     config: CreateNextStack.Prompt.Config<T>
 ): Promise<CreateNextStack.Prompt.TypeMap[T]["returns"]> {
     const prompt: prompts.PromptObject<"res"> = {
@@ -50,3 +50,5 @@ export async function clinput<T extends CreateNextStack.Prompt.Types>(
 
     return input.res;
 }
+
+export default prompt;

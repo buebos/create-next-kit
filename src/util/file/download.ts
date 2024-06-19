@@ -1,5 +1,6 @@
 import { https } from "follow-redirects";
-import { createWriteStream, unlink } from "fs";
+import { createWriteStream } from "fs";
+import { unlink } from "fs/promises";
 import { mkdir } from "fs/promises";
 import path from "path";
 
@@ -9,36 +10,36 @@ async function download(url: string, dir: string, filename: string) {
     const filepath = path.join(dir, filename);
     const file = createWriteStream(filepath);
 
-    const res = await new Promise<{ success: boolean; error?: Error }>(
-        (resolve, reject) => {
-            const request = https.get(url, async (response) => {
-                if (response.statusCode !== 200) {
-                    unlink(filepath, () => {
-                        reject(
-                            new Error(
-                                `Failed to get '${url}' (${response.statusCode})`
-                            )
-                        );
-                    });
-                    return;
-                }
+    const res = await new Promise<{ error?: Error }>((resolve, reject) => {
+        const request = https.get(url, async (response) => {
+            if (response.statusCode !== 200) {
+                await unlink(filepath);
 
-                response.pipe(file);
-            });
+                reject(
+                    new Error(`Failed to get '${url}' (${response.statusCode})`)
+                );
 
-            file.on("finish", () => resolve({ success: true }));
+                return;
+            }
 
-            request.on("error", (e) => {
-                unlink(filepath, () => reject(e));
-            });
+            response.pipe(file);
+        });
 
-            file.on("error", (e) => {
-                unlink(filepath, () => reject(e));
-            });
+        file.on("finish", () => {
+            resolve({});
+        });
 
-            request.end();
-        }
-    );
+        request.on("error", async (err) => {
+            await unlink(filepath);
+            reject(err);
+        });
+        file.on("error", async (err) => {
+            await unlink(filepath);
+            reject(err);
+        });
+
+        request.end();
+    });
 
     if (res.error) {
         throw res.error || new Error("Could not download file from: " + url);

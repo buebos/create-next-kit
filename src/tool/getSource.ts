@@ -1,7 +1,7 @@
 import sources from "../../data/tool_external_source.json";
-import { OS_LABEL } from "./os";
+import { OS_LABEL } from "../util/os";
 
-function getToolSource(tool: CreateNextStack.Tool) {
+function getSource(tool: CreateNextStack.Tool) {
     return sources.find((source) => {
         return (
             source.tool_id === tool.id &&
@@ -11,4 +11,4 @@ function getToolSource(tool: CreateNextStack.Tool) {
     });
 }
 
-export default getToolSource;
+export default getSource;

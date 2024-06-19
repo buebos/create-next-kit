@@ -1,11 +1,11 @@
 import groups from "../data/group.json";
 import tools from "../data/tool.json";
-import { clinput } from "./util/clinput";
+import prompt from "./util/prompt";
 
 async function getAppInputsInit(): Promise<CreateNextStack.App> {
     const app: CreateNextStack.App = {
         project: {
-            name: await clinput({
+            name: await prompt({
                 type: "string",
                 message:
                     "What's your project name? (will pick the last subdir on your input like)",
@@ -37,7 +37,7 @@ async function getAppInputsInit(): Promise<CreateNextStack.App> {
      * section that the user wishes to include.
      */
     for await (const cat of groups) {
-        const techs = await clinput({
+        const techs = await prompt({
             type: "multiselect",
             message: "What " + cat.label + " do you want to include?",
             choices: tools

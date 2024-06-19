@@ -1,10 +1,10 @@
 import { describe, test } from "@jest/globals";
-import tools from "../data/tool.json";
-import handleSetup from "../src/docker/setup";
+import tools from "../../data/tool.json";
+import setup from "../../src/docker/setup";
 
-describe("handleDockerSetup", () => {
+describe("docker.setup", () => {
     test("docker setup ok", async () => {
-        await handleSetup({
+        await setup({
             project: {
                 name: "my-app",
                 dir: "generated/my-app",

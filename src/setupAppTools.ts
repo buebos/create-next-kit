@@ -4,12 +4,11 @@ async function setupAppTools(app: CreateNextStack.App) {
     switch (app.external_source_strategy) {
         case "docker": {
             await setupDocker(app);
-        }
-        case "url": {
-            throw new Error("Unimplemented external source strategy for url");
-        }
-        default:
             break;
+        }
+        case "url":
+        default:
+            throw new Error("Unimplemented external source strategy");
     }
 }
 

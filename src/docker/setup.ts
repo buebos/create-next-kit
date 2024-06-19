@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import logger from "../util/logger";
 import { underline } from "picocolors";
-import toolDownload from "../tool/download";
+import toolDownload from "../tool/downloadFromUrl";
 
 const groups = groupsJSON as CreateNextStack.Group[];
 
@@ -16,17 +16,17 @@ function indent(level: number) {
     return Indentation.char.repeat(level * Indentation.width);
 }
 
-async function handleSetup(app: CreateNextStack.App) {
+async function setup(app: CreateNextStack.App) {
     const nodeMajorVersion = process.versions.node.split(".")[0];
     /** TODO: This templating like strategy is trash. Fix later. */
     const baseDockerComposeContent = [
         "version: '3'",
         "services:",
-        `    ${app.project.dir}:`,
+        `    ${app.project.name}:`,
         `        image: node:${nodeMajorVersion}-alpine`,
-        `        working_dir: /${app.project.dir}`,
+        `        working_dir: /${app.project.name}`,
         "        volumes:",
-        `            - .:/${app.project.dir}`,
+        `            - .:/${app.project.name}`,
         "        ports:",
         "            - 3000:3000",
         "        environment:",
@@ -55,6 +55,7 @@ async function handleSetup(app: CreateNextStack.App) {
 
             continue;
         }
+
         if (group?.source_type != "external") {
             continue;
         }
@@ -97,4 +98,4 @@ async function handleSetup(app: CreateNextStack.App) {
     await writeFile(filePath, dockerComposeContent);
 }
 
-export default handleSetup;
+export default setup;

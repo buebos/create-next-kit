@@ -19,7 +19,7 @@ if (!source) {
     throw new Error("Provide a valid tool that is in data/tool.json");
 }
 
-describe("download", () => {
+describe("tool.downloadFromUrl", () => {
     test(
         "download ok",
         async () => {

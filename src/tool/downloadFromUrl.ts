@@ -4,18 +4,21 @@ import downloadFile from "../util/file/download";
 import unzip from "../util/file/unzip";
 import logger from "../util/logger";
 import { OS_LABEL } from "../util/os";
-import getToolSource from "../util/getToolSource";
+import getSource from "./getSource";
 
 const EXTERNAL_TOOLS_DIR = "resource";
 
-async function download(app: CreateNextStack.App, tool: CreateNextStack.Tool) {
+async function downloadFromUrl(
+    app: CreateNextStack.App,
+    tool: CreateNextStack.Tool
+) {
     if (!OS_LABEL) {
         throw new Error(
             `Could not download external tool since your OS (${process.platform}) does not matches any of the supported platforms.`
         );
     }
 
-    const source = getToolSource(tool);
+    const source = getSource(tool);
 
     if (!source) {
         throw new Error(
@@ -34,10 +37,14 @@ async function download(app: CreateNextStack.App, tool: CreateNextStack.Tool) {
 
     switch (source.file_extension) {
         case "zip": {
+            logger.loading("Unzipping " + tool.label + "...");
+
             const filedir = path.join(dir, filename);
 
             await unzip(filedir, dir);
             await unlink(filedir);
+
+            logger.loadingFinished("Unzipped " + tool.label);
         }
         case "msi": {
         }
@@ -46,11 +53,11 @@ async function download(app: CreateNextStack.App, tool: CreateNextStack.Tool) {
     }
 }
 
-export function getExternalToolPath(
+function getExternalToolPath(
     app: CreateNextStack.App,
     tool: CreateNextStack.Tool
 ) {
     return path.join(app.project.dir, EXTERNAL_TOOLS_DIR, tool.group);
 }
 
-export default download;
+export default downloadFromUrl;
