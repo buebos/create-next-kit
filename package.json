@@ -1,11 +1,11 @@
 {
-    "name": "create-next-stack",
+    "name": "create-next-kit",
     "version": "1.0.0",
     "description": "A create-next-app wrapper that allows to setup docker, stripe-cli and other addons.",
     "main": "dist/index.js",
     "bin": "dist/index.js",
     "scripts": {
-        "start": "npm exec create-next-stack",
+        "start": "npm exec create-next-kit",
         "dev": "webpack --config webpack.config.ts --watch",
         "build": "webpack --config webpack.config.ts",
         "prepack": "npm run build",
@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/buebos/create-next-stack.git"
+        "url": "git+https://github.com/buebos/create-next-kit.git"
     },
     "keywords": [
         "nextjs",
@@ -23,9 +23,9 @@
     "author": "Gael Herrera",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/buebos/create-next-stack/issues"
+        "url": "https://github.com/buebos/create-next-kit/issues"
     },
-    "homepage": "https://github.com/buebos/create-next-stack#readme",
+    "homepage": "https://github.com/buebos/create-next-kit#readme",
     "dependencies": {
         "adm-zip": "^0.5.14",
         "commander": "^12.1.0",

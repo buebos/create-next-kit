@@ -9,7 +9,7 @@ This is a simple project that aims to provide extra functionality to the create-
 To create a project using the CLI run the following command and answer the form.
 
 ```bash
-$ npx create-next-stack
+$ npx create-next-kit
 ```
 
 ## Notes
