@@ -9,8 +9,8 @@ describe("docker.setup", () => {
                 name: "my-app",
                 dir: "generated/my-app",
             },
-            external_source_strategy: "docker",
-            external_source_url_strategy: "download",
+            external_strategy: "download",
+            container_strategy: "docker",
             tools: tools as CreateNextStack.Tool[],
         });
     }, 10_000);

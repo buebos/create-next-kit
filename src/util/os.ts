@@ -1,11 +1,8 @@
-type OSGroup = "win32" | "win64" | "darwin" | "linux" | undefined;
+type OSGroup = "win32" | "win64" | "darwin" | "linux";
 
 export const OS_LABEL = getCurrentOSLabel();
 
 export function getCurrentOSLabel(): OSGroup {
-    if (process.platform == "win32") {
-    }
-
     switch (process.platform) {
         case "win32": {
             if (
@@ -21,7 +18,9 @@ export function getCurrentOSLabel(): OSGroup {
         case "linux":
             return process.platform;
         default: {
-            return;
+            throw new Error(
+                "Could not categorize your OS (win32 | win64 | darwin | linux), therefore tool installation cannot be performed"
+            );
         }
     }
 }

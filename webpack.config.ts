@@ -1,5 +1,5 @@
 import path from "path";
-import type { Configuration } from "webpack";
+import { BannerPlugin, type Configuration } from "webpack";
 
 export default {
     entry: "./index.ts",
@@ -25,4 +25,5 @@ export default {
         filename: "index.js",
         path: path.resolve(__dirname, "dist"),
     },
+    plugins: [new BannerPlugin({ banner: "#!/usr/bin/env node", raw: true })],
 } as Configuration;

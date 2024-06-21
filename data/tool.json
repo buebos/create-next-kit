@@ -2,25 +2,29 @@
     {
         "id": "docker",
         "label": "Docker",
-        "group": "container"
+        "group": "container",
+        "source_type": "manual"
     },
 
     {
         "id": "mysql",
         "label": "MySQL",
         "group": "database",
+        "source_type": "external",
         "docker_image_id": "mysql"
     },
     {
         "id": "postgres",
         "label": "PostgreSQL",
         "group": "database",
+        "source_type": "external",
         "docker_image_id": "postgres"
     },
     {
         "id": "redis",
         "label": "Redis",
         "group": "database",
+        "source_type": "external",
         "docker_image_id": "redis"
     },
 
@@ -28,7 +32,8 @@
         "id": "prisma",
         "label": "Prisma",
         "group": "orm",
-        "npm_package_id": ""
+        "source_type": "npm",
+        "npm_package_id": "prisma"
     },
 
     {
@@ -49,28 +54,33 @@
     {
         "id": "google_maps",
         "label": "Google Maps",
+        "source_type": "npm",
         "group": "api_client"
     },
 
     {
         "id": "facebook_auth",
         "label": "Facebook",
+        "source_type": "npm",
         "group": "oauth_client"
     },
     {
         "id": "github_auth",
         "label": "Github",
+        "source_type": "npm",
         "group": "oauth_client"
     },
     {
         "id": "google_auth",
         "label": "Google",
+        "source_type": "npm",
         "group": "oauth_client"
     },
 
     {
         "id": "shadcn_ui",
         "label": "ShadCN UI",
+        "source_type": "npm",
         "group": "component_lib"
     }
 ]

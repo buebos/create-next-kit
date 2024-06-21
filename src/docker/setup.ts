@@ -4,6 +4,8 @@ import path from "path";
 import logger from "../util/logger";
 import { underline } from "picocolors";
 import toolDownload from "../tool/downloadFromUrl";
+import getExternalSource from "../tool/getExternalSource";
+import { APP_RESOURCE_DIR } from "../util/constant";
 
 const groups = groupsJSON as CreateNextStack.Group[];
 
@@ -37,18 +39,12 @@ async function setup(app: CreateNextStack.App) {
     let dockerComposeContent = `${baseDockerComposeContent}`;
 
     for await (const tool of app.tools) {
-        const group = groups.find((group) => {
-            return group.id === tool.group;
-        });
-
         /** In case the tool has a specific source different from it's group */
-        if (group?.source_type == "mixed" && tool.source_type != "external") {
+        if (tool.source_type != "external") {
             if (!tool.source_type) {
                 throw new Error(
                     `Missing source_type for tool: ${underline(
                         tool.label
-                    )} from group: ${underline(
-                        group.label
                     )}.\nThis is a development error please notify or add a source_type field on data/tool.json file for it.`
                 );
             }
@@ -56,20 +52,25 @@ async function setup(app: CreateNextStack.App) {
             continue;
         }
 
-        if (group?.source_type != "external") {
-            continue;
-        }
-
         if (!tool.docker_image_id) {
+            const source = getExternalSource(tool);
+
+            if (!source) {
+                throw Error("No download source for tool: " + tool.label);
+            }
+
             logger.warn(
                 `${underline(
                     tool.label
                 )} is an external tool but does not have a docker_image_id.\nIt will be handled with it's external url instead.`
             );
 
-            switch (app.external_source_url_strategy) {
+            switch (app.external_strategy) {
                 case "download": {
-                    await toolDownload(app, tool);
+                    await toolDownload(tool, source, {
+                        dir: path.join(app.project.dir, APP_RESOURCE_DIR),
+                        filename: source.tool_id + "." + source.file_extension,
+                    });
                 }
                 case "write_script": {
                     throw new Error("Unimplemented");

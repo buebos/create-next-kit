@@ -1,19 +1,23 @@
 namespace CreateNextStack {
-    type ToolSource = "npm" | "external";
-
     type Group = {
         id: string;
         label: string;
-        source_type: ToolSource | "mixed";
     };
 
     type Tool = {
         id: string;
         label: string;
         group: string;
-        source_type?: ToolSource;
+        source_type: "npm" | "external" | "manual";
         docker_image_id?: string;
         npm_package_id?: string;
+    };
+
+    type ToolExternalSource = {
+        tool_id: string;
+        platforms: string[];
+        file_extension: string;
+        url: string;
     };
 
     type App = {
@@ -21,9 +25,12 @@ namespace CreateNextStack {
             dir: string;
             name: string;
         };
-        external_source_strategy: "docker" | "url";
-        external_source_url_strategy: "write_script" | "download";
+
         tools: Tool[];
+
+        external_strategy: "write_script" | "download";
+
+        container_strategy?: "docker";
     };
 
     namespace Prompt {

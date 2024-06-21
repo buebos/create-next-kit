@@ -18,8 +18,7 @@ async function getAppInputsInit(): Promise<CreateNextStack.App> {
             }),
             dir: "",
         },
-        external_source_strategy: "url",
-        external_source_url_strategy: "write_script",
+        external_strategy: "write_script",
         tools: [],
     };
 
@@ -61,7 +60,7 @@ async function getAppInputsInit(): Promise<CreateNextStack.App> {
      * Used to handle downloading of external tools.
      */
     if (app.tools.some((tool) => tool.id == "docker")) {
-        app.external_source_strategy = "docker";
+        app.container_strategy = "docker";
     }
 
     /**

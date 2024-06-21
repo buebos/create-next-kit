@@ -78,7 +78,7 @@ const logger = {
             i = i >= characters.length ? 0 : i;
         }, 150);
 
-        this.loadingFinished = (
+        this.loadFinished = (
             finishMessage?: string,
             status: "success" | "error" = "success"
         ) => {
@@ -99,7 +99,7 @@ const logger = {
                 this.error(finishMessage ?? message);
             }
 
-            this.loadingFinished = (
+            this.loadFinished = (
                 _message?: string,
                 _status: "success" | "error" = "success"
             ) => {
@@ -111,7 +111,7 @@ const logger = {
 
         return this;
     },
-    loadingFinished(
+    loadFinished(
         _message?: string,
         _status: "success" | "error" = "success"
     ) {

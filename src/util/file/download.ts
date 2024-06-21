@@ -1,13 +1,8 @@
 import { https } from "follow-redirects";
 import { createWriteStream } from "fs";
 import { unlink } from "fs/promises";
-import { mkdir } from "fs/promises";
-import path from "path";
 
-async function download(url: string, dir: string, filename: string) {
-    await mkdir(dir, { recursive: true });
-
-    const filepath = path.join(dir, filename);
+async function download(url: string, filepath: string) {
     const file = createWriteStream(filepath);
 
     const res = await new Promise<{ error?: Error }>((resolve, reject) => {

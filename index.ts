@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { spawn } from "child_process";
 import getAppInputsInit from "./src/getAppInputsInit";
 import setupAppTools from "./src/setupAppTools";
