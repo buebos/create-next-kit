@@ -1,27 +1,10 @@
-import groups from "../data/group.json";
-import tools from "../data/tool.json";
-import prompt from "./util/prompt";
+import groups from "../../../../data/group.json";
+import tools from "../../../../data/tool.json";
+import { App } from "../../../model/App";
+import { Tool } from "../../../model/Tool";
+import prompt from "../../../util/prompt";
 
-async function getAppInputsInit(): Promise<CreateNextStack.App> {
-    const app: CreateNextStack.App = {
-        project: {
-            name: await prompt({
-                type: "string",
-                message:
-                    "What's your project name? (will pick the last subdir on your input like)",
-                fallback: "my-app",
-                validator: (name) => {
-                    return (
-                        typeof name === "string" && name != "." && name != ".."
-                    );
-                },
-            }),
-            dir: "",
-        },
-        external_strategy: "write_script",
-        tools: [],
-    };
-
+async function promptToolsForm(app: App): Promise<void> {
     /**
      * Handle a name with subdirs for example: parent-1/parent-2/my-app
      * will result on a name simple name like my-app.
@@ -50,9 +33,7 @@ async function getAppInputsInit(): Promise<CreateNextStack.App> {
         });
 
         for (const tech of techs) {
-            app.tools.push(
-                tools.find((tool) => tool.id == tech) as CreateNextStack.Tool
-            );
+            app.tools.push(tools.find((tool) => tool.id == tech) as Tool);
         }
     }
 
@@ -70,8 +51,6 @@ async function getAppInputsInit(): Promise<CreateNextStack.App> {
     if (process.env.NODE_ENV === "development") {
         app.project.dir = "generated/" + app.project.dir;
     }
-
-    return app;
 }
 
-export default getAppInputsInit;
+export default promptToolsForm;

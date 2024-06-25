@@ -1,17 +1,16 @@
 import { describe, test } from "@jest/globals";
-import tools from "../../data/tool.json";
-import setup from "../../src/docker/setup";
+import setupAppTools from "../../../../src/command/create-next-kit/task/setupAppTools";
 
-describe("docker.setup", () => {
-    test("docker setup ok", async () => {
-        await setup({
+describe("setupAppTools", () => {
+    test("next stack setup with config goes ok", async () => {
+        await setupAppTools({
             project: {
                 name: "my-app",
                 dir: "generated/my-app",
             },
             external_strategy: "download",
             container_strategy: "docker",
-            tools: tools as CreateNextStack.Tool[],
+            tools: [],
         });
     }, 10_000);
 });

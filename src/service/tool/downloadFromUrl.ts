@@ -1,8 +1,10 @@
 import { mkdir, unlink } from "fs/promises";
 import path from "path";
-import downloadFile from "../util/file/download";
-import unzip from "../util/file/unzip";
-import logger from "../util/logger";
+import { External } from "../../model/External";
+import { Tool } from "../../model/Tool";
+import downloadFile from "../../util/file/download";
+import unzip from "../../util/file/unzip";
+import logger from "../../util/logger";
 
 type FileDest = {
     dir: string;
@@ -10,21 +12,21 @@ type FileDest = {
 };
 
 async function downloadFromExternalSource(
-    tool: CreateNextStack.Tool,
-    source: CreateNextStack.ToolExternalSource,
+    tool: Tool,
+    external: External,
     dest: FileDest
 ) {
     const filepath = path.join(dest.dir, dest.filename);
 
     await mkdir(dest.dir, { recursive: true });
 
-    logger.loading("Downloading " + tool.label + " from " + source.url);
+    logger.loading("Downloading " + tool.label + " from " + external.url);
 
-    await downloadFile(source.url, filepath);
+    await downloadFile(external.url, filepath);
 
-    logger.loadFinished("Downloaded " + tool.label + " from " + source.url);
+    logger.loadFinished("Downloaded " + tool.label + " from " + external.url);
 
-    switch (source.file_extension) {
+    switch (external.file_extension) {
         case "zip": {
             logger.loading("Unzipping " + tool.label + "...");
 

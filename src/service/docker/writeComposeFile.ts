@@ -1,13 +1,11 @@
-import groupsJSON from "../../data/group.json";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
-import logger from "../util/logger";
 import { underline } from "picocolors";
 import toolDownload from "../tool/downloadFromUrl";
 import getExternalSource from "../tool/getExternalSource";
-import { APP_RESOURCE_DIR } from "../util/constant";
-
-const groups = groupsJSON as CreateNextStack.Group[];
+import { APP_RESOURCE_DIR } from "../../util/constant";
+import logger from "../../util/logger";
+import { App } from "../../model/App";
 
 const Indentation = {
     char: " ",
@@ -18,7 +16,7 @@ function indent(level: number) {
     return Indentation.char.repeat(level * Indentation.width);
 }
 
-async function setup(app: CreateNextStack.App) {
+async function writeComposeFile(app: App) {
     const nodeMajorVersion = process.versions.node.split(".")[0];
     /** TODO: This templating like strategy is trash. Fix later. */
     const baseDockerComposeContent = [
@@ -39,7 +37,7 @@ async function setup(app: CreateNextStack.App) {
     let dockerComposeContent = `${baseDockerComposeContent}`;
 
     for await (const tool of app.tools) {
-        /** In case the tool has a specific source different from it's group */
+        /** In case the tool has a specific external different from it's group */
         if (tool.source_type != "external") {
             if (!tool.source_type) {
                 throw new Error(
@@ -53,10 +51,10 @@ async function setup(app: CreateNextStack.App) {
         }
 
         if (!tool.docker_image_id) {
-            const source = getExternalSource(tool);
+            const external = getExternalSource(tool);
 
-            if (!source) {
-                throw Error("No download source for tool: " + tool.label);
+            if (!external) {
+                throw Error("No download external for tool: " + tool.label);
             }
 
             logger.warn(
@@ -67,9 +65,9 @@ async function setup(app: CreateNextStack.App) {
 
             switch (app.external_strategy) {
                 case "download": {
-                    await toolDownload(tool, source, {
+                    await toolDownload(tool, external, {
                         dir: path.join(app.project.dir, APP_RESOURCE_DIR),
-                        filename: source.tool_id + "." + source.file_extension,
+                        filename: external.tool_id + "." + external.file_extension,
                     });
                 }
                 case "write_script": {
@@ -99,4 +97,4 @@ async function setup(app: CreateNextStack.App) {
     await writeFile(filePath, dockerComposeContent);
 }
 
-export default setup;
+export default writeComposeFile;

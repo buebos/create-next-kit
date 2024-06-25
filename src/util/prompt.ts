@@ -1,5 +1,36 @@
 import prompts from "prompts";
 
+type Types = "string" | "boolean" | "multiselect";
+
+type TypeMap = {
+    string: {
+        returns: string;
+        fallback: string;
+    };
+    boolean: {
+        returns: boolean;
+        fallback: boolean;
+    };
+    multiselect: {
+        returns: string[];
+        fallback: never;
+    };
+};
+
+type Config<T extends Types> = (T extends "multiselect"
+    ? {
+          type: T;
+          message: string;
+          choices?: { title: string; value: string }[];
+      }
+    : {
+          type: T;
+          message: string;
+          fallback: TypeMap[T]["fallback"];
+      }) & {
+    validator?: (input: unknown) => boolean;
+};
+
 const promptsLibTypeMap = {
     string: "text",
     boolean: "toggle",
@@ -22,9 +53,9 @@ function handleAbort(promptState: { aborted: boolean }) {
  *
  * @returns The parsed response from the user.
  */
-export async function prompt<T extends CreateNextStack.Prompt.Types>(
-    config: CreateNextStack.Prompt.Config<T>
-): Promise<CreateNextStack.Prompt.TypeMap[T]["returns"]> {
+export async function prompt<T extends Types>(
+    config: Config<T>
+): Promise<TypeMap[T]["returns"]> {
     const prompt: prompts.PromptObject<"res"> = {
         name: "res",
         type: promptsLibTypeMap[config.type],

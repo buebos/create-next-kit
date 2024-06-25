@@ -8,10 +8,16 @@ src
 .prettierrc
 TODO.md
 .gitignore
+jest.config.ts
 
 # Files used for typescript development
 tsconfig.json
+tsconfig.build.json
 globals.d.ts
+
+# Files used for building
+webpack.config.ts
+babel.config.js
 
 # Ignore all keys and variables private to local machine
 .env

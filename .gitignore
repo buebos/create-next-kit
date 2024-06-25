@@ -8,5 +8,6 @@ dist
 generated
 
 # Ignore all keys and variables private to local machine
-# (mainly in case API keys are added).
+# (mainly in case API keys are added). Just in case I add
+# some API key or something to download the tools lol.
 .env

@@ -1,11 +1,10 @@
-import setupDocker from "./docker/setup";
+import { App } from "../../../model/App";
+import writeComposeFile from "../../../service/docker/writeComposeFile";
 
-async function setupAppTools(app: CreateNextStack.App) {
-    
-
+async function setupAppTools(app: App) {
     switch (app.container_strategy) {
         case "docker": {
-            await setupDocker(app);
+            await writeComposeFile(app);
             break;
         }
         default:
