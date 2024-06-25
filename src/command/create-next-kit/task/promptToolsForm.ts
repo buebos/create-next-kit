@@ -5,6 +5,16 @@ import { Tool } from "../../../model/Tool";
 import prompt from "../../../util/prompt";
 
 async function promptToolsForm(app: App): Promise<void> {
+    app.project.name = await prompt({
+        type: "string",
+        message:
+            "What's your project name? (will pick the last subdir on your input)",
+        fallback: app.project.name,
+        validator: (name) => {
+            return typeof name === "string" && name != "." && name != "..";
+        },
+    });
+
     /**
      * Handle a name with subdirs for example: parent-1/parent-2/my-app
      * will result on a name simple name like my-app.

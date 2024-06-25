@@ -8,7 +8,7 @@
         "start": "npm exec create-next-kit",
         "dev": "webpack --config webpack.config.ts --watch",
         "build": "webpack --config webpack.config.ts",
-        "prepack": "npm run build",
+        "prepack": "npm test && npm run build",
         "test": "jest"
     },
     "repository": {
