@@ -14,4 +14,4 @@ $ npx create-next-kit
 
 ## Notes
 
-Just started this project so is still on development. Also this is for my personal use only, idk if anyone will see this lol.
+Just started this project so it's still on development. Also this is for my personal use only, idk if anyone will see this lol.

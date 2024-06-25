@@ -1,6 +1,6 @@
 {
     "name": "create-next-kit",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "A create-next-app wrapper that allows to setup docker, stripe-cli and other addons.",
     "main": "dist/index.js",
     "bin": "dist/index.js",
