@@ -1,10 +1,13 @@
-import groups from "../../../../data/group.json";
-import tools from "../../../../data/tool.json";
 import { App } from "../../../model/App";
 import { Tool } from "../../../model/Tool";
+import getGroups from "../../../service/group/getGroups";
+import getTools from "../../../service/tool/getTools";
 import prompt from "../../../util/prompt";
 
 async function promptToolsForm(app: App): Promise<void> {
+    const tools = await getTools();
+    const groups = await getGroups();
+
     app.project.name = await prompt({
         type: "string",
         message:

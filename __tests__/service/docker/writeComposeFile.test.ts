@@ -1,7 +1,7 @@
 import { describe, test } from "@jest/globals";
-import tools from "../../../data/tool.json";
 import { Tool } from "../../../src/model/Tool";
 import writeComposeFile from "../../../src/service/docker/writeComposeFile";
+import getTools from "../../../src/service/tool/getTools";
 
 describe("service.docker.writeComposeFile", () => {
     test("docker writeComposeFile ok", async () => {
@@ -12,7 +12,7 @@ describe("service.docker.writeComposeFile", () => {
             },
             external_strategy: "download",
             container_strategy: "docker",
-            tools: tools as Tool[],
+            tools: await getTools(),
         });
     }, 10_000);
 });

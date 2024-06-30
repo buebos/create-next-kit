@@ -1,4 +1,4 @@
-type OSGroup = "win32" | "win64" | "darwin" | "linux";
+import { OSGroup } from "../model/OsGroup";
 
 export const OS_LABEL = getCurrentOSLabel();
 

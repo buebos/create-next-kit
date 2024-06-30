@@ -1,6 +1,8 @@
+import { OSGroup } from "./OsGroup";
+
 export type External = {
     tool_id: string;
-    platforms: string[];
+    os_groups: OSGroup[];
     file_extension: string;
     url: string;
 };

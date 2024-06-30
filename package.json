@@ -1,6 +1,6 @@
 {
     "name": "create-next-kit",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A create-next-app wrapper that allows to setup docker, stripe-cli and other addons.",
     "main": "dist/index.js",
     "bin": "dist/index.js",
@@ -28,10 +28,8 @@
     "homepage": "https://github.com/buebos/create-next-kit#readme",
     "dependencies": {
         "adm-zip": "^0.5.14",
-        "commander": "^12.1.0",
         "create-next-app": "latest",
         "follow-redirects": "^1.15.6",
-        "original-fs": "^1.2.0",
         "picocolors": "^1.0.1",
         "prompts": "^2.4.2"
     },

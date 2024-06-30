@@ -51,7 +51,7 @@ async function writeComposeFile(app: App) {
         }
 
         if (!tool.docker_image_id) {
-            const external = getExternalSource(tool);
+            const external = await getExternalSource(tool);
 
             if (!external) {
                 throw Error("No download external for tool: " + tool.label);
@@ -67,7 +67,8 @@ async function writeComposeFile(app: App) {
                 case "download": {
                     await toolDownload(tool, external, {
                         dir: path.join(app.project.dir, APP_RESOURCE_DIR),
-                        filename: external.tool_id + "." + external.file_extension,
+                        filename:
+                            external.tool_id + "." + external.file_extension,
                     });
                 }
                 case "write_script": {
