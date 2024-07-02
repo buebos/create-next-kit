@@ -4,7 +4,7 @@ import getGroups from "../../../service/group/getGroups";
 import getTools from "../../../service/tool/getTools";
 import prompt from "../../../util/prompt";
 
-async function promptToolsForm(app: App): Promise<void> {
+async function promptAppForm(app: App): Promise<void> {
     const tools = await getTools();
     const groups = await getGroups();
 
@@ -53,7 +53,7 @@ async function promptToolsForm(app: App): Promise<void> {
     /**
      * Used to handle downloading of external tools.
      */
-    if (app.tools.some((tool) => tool.id == "docker")) {
+    if (app.tools.some((tool) => tool.group == "docker")) {
         app.container_strategy = "docker";
     }
 
@@ -66,4 +66,4 @@ async function promptToolsForm(app: App): Promise<void> {
     }
 }
 
-export default promptToolsForm;
+export default promptAppForm;

@@ -1,11 +1,21 @@
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { underline } from "picocolors";
-import toolDownload from "../tool/downloadFromUrl";
+import downloadFromExternalSource from "../tool/downloadFromExternalSource";
 import getExternalSource from "../tool/getExternalSource";
-import { APP_RESOURCE_DIR } from "../../util/constant";
+import {
+    APP_PROJECT_RESOURCE_DIR,
+    APP_PROJECT_SCRIPT_DIR,
+} from "../../util/constant";
 import logger from "../../util/logger";
-import { App } from "../../model/App";
+import { Tool } from "../../model/Tool";
+import writeDownloadScript from "../tool/writeDownloadScript";
+
+type Params = {
+    name: string;
+    dir: string;
+    tools: Tool[];
+};
 
 const Indentation = {
     char: " ",
@@ -16,46 +26,32 @@ function indent(level: number) {
     return Indentation.char.repeat(level * Indentation.width);
 }
 
-async function writeComposeFile(app: App) {
+async function writeComposeFile(params: Params) {
     const nodeMajorVersion = process.versions.node.split(".")[0];
     /** TODO: This templating like strategy is trash. Fix later. */
     const baseDockerComposeContent = [
         "version: '3'",
         "services:",
-        `    ${app.project.name}:`,
+        `    ${params.name}:`,
         `        image: node:${nodeMajorVersion}-alpine`,
-        `        working_dir: /${app.project.name}`,
+        `        working_dir: /${params.dir}`,
         "        volumes:",
-        `            - .:/${app.project.name}`,
+        `            - .:/${params.dir}`,
         "        ports:",
         "            - 3000:3000",
         "        environment:",
         "            - NODE_ENV=production",
         "        command: npm run start",
     ].join("\n");
-
     let dockerComposeContent = `${baseDockerComposeContent}`;
 
-    for await (const tool of app.tools) {
-        /** In case the tool has a specific external different from it's group */
+    for (const tool of params.tools) {
         if (tool.source_type != "external") {
-            if (!tool.source_type) {
-                throw new Error(
-                    `Missing source_type for tool: ${underline(
-                        tool.label
-                    )}.\nThis is a development error please notify or add a source_type field on data/tool.json file for it.`
-                );
-            }
-
             continue;
         }
 
         if (!tool.docker_image_id) {
             const external = await getExternalSource(tool);
-
-            if (!external) {
-                throw Error("No download external for tool: " + tool.label);
-            }
 
             logger.warn(
                 `${underline(
@@ -63,20 +59,20 @@ async function writeComposeFile(app: App) {
                 )} is an external tool but does not have a docker_image_id.\nIt will be handled with it's external url instead.`
             );
 
-            switch (app.external_strategy) {
-                case "download": {
-                    await toolDownload(tool, external, {
-                        dir: path.join(app.project.dir, APP_RESOURCE_DIR),
-                        filename:
-                            external.tool_id + "." + external.file_extension,
-                    });
-                }
-                case "write_script": {
-                    throw new Error("Unimplemented");
-                }
-                default:
-                    break;
+            if (!external) {
+                throw new Error(
+                    "No external download found for tool: " + tool.label
+                );
             }
+
+            await downloadFromExternalSource(tool, external, {
+                dir: path.join(params.dir, APP_PROJECT_RESOURCE_DIR),
+                filename: external.tool_id + "." + external.file_extension,
+            });
+            await writeDownloadScript(
+                tool,
+                path.join(params.dir, APP_PROJECT_SCRIPT_DIR)
+            );
 
             continue;
         }
@@ -92,9 +88,9 @@ async function writeComposeFile(app: App) {
             tool.docker_image_id;
     }
 
-    const filePath = path.join(app.project.dir, "docker-compose.yaml");
+    const filePath = path.join(params.dir, "docker-compose.yaml");
 
-    await mkdir(app.project.dir, { recursive: true });
+    await mkdir(params.dir, { recursive: true });
     await writeFile(filePath, dockerComposeContent);
 }
 

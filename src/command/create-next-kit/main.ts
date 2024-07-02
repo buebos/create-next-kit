@@ -1,8 +1,8 @@
 import { App } from "../../model/App";
+import writeComposeFile from "../../service/docker/writeComposeFile";
 import logger from "../../util/logger";
 import createNextApp from "./task/createNextApp";
-import promptToolsForm from "./task/promptToolsForm";
-import setupAppTools from "./task/setupAppTools";
+import promptAppForm from "./task/promptAppForm";
 
 async function main() {
     try {
@@ -11,7 +11,6 @@ async function main() {
                 dir: "my-app",
                 name: "my-app",
             },
-            external_strategy: "download",
             tools: [],
         };
 
@@ -22,7 +21,7 @@ async function main() {
          * It will also modify the app struct to match for the
          * tools.
          */
-        await promptToolsForm(app);
+        await promptAppForm(app);
 
         logger
             .line()
@@ -33,7 +32,16 @@ async function main() {
 
         await createNextApp(app.project.dir);
 
-        await setupAppTools(app);
+        switch (app.container_strategy) {
+            case "docker":
+                await writeComposeFile({
+                    dir: app.project.dir,
+                    name: app.project.name,
+                    tools: app.tools,
+                });
+            default:
+                break;
+        }
     } catch (e) {
         logger.error(e);
     }

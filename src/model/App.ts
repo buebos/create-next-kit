@@ -5,10 +5,7 @@ export type App = {
         dir: string;
         name: string;
     };
-
     tools: Tool[];
-
-    external_strategy: "write_script" | "download";
 
     container_strategy?: "docker";
 };

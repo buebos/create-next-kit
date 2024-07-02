@@ -1,7 +1,7 @@
 import { describe, test } from "@jest/globals";
 import path from "path";
 import { Tool } from "../../../src/model/Tool";
-import downloadFromUrl from "../../../src/service/tool/downloadFromUrl";
+import downloadFromUrl from "../../../src/service/tool/downloadFromExternalSource";
 import getExternals from "../../../src/service/external/getExternals";
 
 const DOWNLOAD_PATH = path.join("generated", "__tests__", "download");

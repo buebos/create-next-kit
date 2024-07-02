@@ -1,6 +1,8 @@
 import createNextKit from "./src/command/create-next-kit/main";
 import help from "./src/command/help";
 
+main();
+
 async function main() {
     /**
      * TODO: Handle this logic properly lol.
@@ -11,5 +13,3 @@ async function main() {
 
     await createNextKit();
 }
-
-main();
