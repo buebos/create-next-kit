@@ -1,3 +1,4 @@
+import { Container } from "./Container";
 import { Tool } from "./Tool";
 
 export type App = {
@@ -6,6 +7,5 @@ export type App = {
         name: string;
     };
     tools: Tool[];
-
-    container_strategy?: "docker";
+    container_strategy: Container;
 };

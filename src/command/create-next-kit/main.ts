@@ -1,5 +1,6 @@
 import { App } from "../../model/App";
-import writeComposeFile from "../../service/docker/writeComposeFile";
+import initComposeFile from "../../service/docker/initComposeFile";
+import toolSetup from "../../service/tool/setup";
 import logger from "../../util/logger";
 import createNextApp from "./task/createNextApp";
 import promptAppForm from "./task/promptAppForm";
@@ -12,6 +13,7 @@ async function main() {
                 name: "my-app",
             },
             tools: [],
+            container_strategy: null,
         };
 
         /**
@@ -34,13 +36,16 @@ async function main() {
 
         switch (app.container_strategy) {
             case "docker":
-                await writeComposeFile({
+                await initComposeFile({
                     dir: app.project.dir,
                     name: app.project.name,
-                    tools: app.tools,
                 });
             default:
                 break;
+        }
+
+        for await (const tool of app.tools) {
+            await toolSetup(tool, [], app.project.dir);
         }
     } catch (e) {
         logger.error(e);

@@ -1,12 +1,12 @@
 {
     "name": "create-next-kit",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A create-next-app wrapper that allows to setup docker, stripe-cli and other addons.",
     "main": "dist/index.js",
     "bin": "dist/index.js",
     "scripts": {
         "start": "npm exec create-next-kit",
-        "dev": "webpack --config webpack.config.ts --watch",
+        "dev": "ts-node index.ts",
         "build": "webpack --config webpack.config.ts",
         "prepack": "npm test && npm run build",
         "test": "jest"

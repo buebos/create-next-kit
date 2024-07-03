@@ -2,85 +2,72 @@
     {
         "id": "docker",
         "label": "Docker",
-        "group": "container",
-        "source_type": "manual"
+        "group": "container"
     },
 
     {
         "id": "mysql",
         "label": "MySQL",
-        "group": "database",
-        "source_type": "external",
-        "docker_image_id": "mysql"
+        "group": "database"
     },
     {
         "id": "postgres",
         "label": "PostgreSQL",
-        "group": "database",
-        "source_type": "external",
-        "docker_image_id": "postgres"
+        "group": "database"
     },
     {
         "id": "redis",
         "label": "Redis",
-        "group": "database",
-        "source_type": "external",
-        "docker_image_id": "redis"
+        "group": "database"
     },
 
     {
         "id": "prisma",
         "label": "Prisma",
-        "group": "orm",
-        "source_type": "npm",
-        "npm_package_id": "prisma"
+        "group": "orm"
     },
 
     {
         "id": "stripe_client",
         "label": "Stripe Client Library",
-        "group": "stripe",
-        "source_type": "npm",
-        "docker_image_id": "stripe/stripe-cli"
+        "group": "stripe"
+    },
+    {
+        "id": "stripe_react",
+        "label": "Stripe React Library",
+        "group": "stripe"
     },
     {
         "id": "stripe_cli",
         "label": "Stripe CLI",
-        "group": "stripe",
-        "source_type": "external",
-        "docker_image_id": "stripe/stripe-cli"
+        "group": "stripe"
     },
 
     {
         "id": "google_maps",
         "label": "Google Maps",
-        "source_type": "npm",
         "group": "api_client"
     },
 
     {
         "id": "facebook_auth",
         "label": "Facebook",
-        "source_type": "npm",
         "group": "oauth_client"
     },
     {
         "id": "github_auth",
         "label": "Github",
-        "source_type": "npm",
         "group": "oauth_client"
     },
     {
         "id": "google_auth",
         "label": "Google",
-        "source_type": "npm",
         "group": "oauth_client"
     },
 
     {
         "id": "shadcn_ui",
         "label": "ShadCN UI",
-        "source_type": "npm",
         "group": "component_lib"
     }
 ]

@@ -1,0 +1,94 @@
+[
+    {
+        "tool_id": "stripe_client",
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "npm",
+                "packages": ["@stripe/stripe-js"]
+            }
+        }
+    },
+    {
+        "tool_id": "stripe_react",
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "npm",
+                "packages": ["@stripe/react-stripe-js"]
+            }
+        }
+    },
+    {
+        "tool_id": "stripe_cli",
+        "platforms": ["win64", "win32"],
+        "download": {
+            "type": "https",
+            "details": {
+                "url": "https://github.com/stripe/stripe-cli/releases/download/v1.20.0/stripe_1.20.0_windows_x86_64.zip",
+                "extension": "zip"
+            }
+        }
+    },
+    {
+        "tool_id": "stripe_cli",
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "docker",
+                "packages": ["stripe/stripe-cli"]
+            }
+        }
+    },
+    {
+        "tool_id": "mysql",
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "docker",
+                "packages": ["mysql"]
+            }
+        }
+    },
+    {
+        "tool_id": "mysql",
+        "platforms": ["win64", "win32"],
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "chocolatey",
+                "packages": ["mysql"]
+            }
+        }
+    },
+    {
+        "tool_id": "postgres",
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "docker",
+                "packages": ["postgres"]
+            }
+        }
+    },
+    {
+        "tool_id": "redis",
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "docker",
+                "packages": ["redis"]
+            }
+        }
+    },
+    {
+        "tool_id": "prisma",
+        "download": {
+            "type": "manager",
+            "details": {
+                "manager_id": "npm",
+                "packages": ["prisma", "typescript", "ts-node"]
+            }
+        }
+    }
+]

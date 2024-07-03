@@ -1,0 +1,28 @@
+[
+    {
+        "id": "npm",
+        "label": "NPM",
+        "command": {
+            "target_dir_flag": "--prefix"
+        }
+    },
+    {
+        "id": "docker",
+        "label": "Docker",
+        "command": {
+            "install": "image pull"
+        }
+    },
+    {
+        "id": "apt-get",
+        "label": "APT"
+    },
+    {
+        "id": "brew",
+        "label": "Homebrew"
+    },
+    {
+        "id": "choco",
+        "label": "Chocolatey"
+    }
+]

@@ -1,22 +1,23 @@
-import { OSGroup } from "../model/OsGroup";
+import { Platform } from "../model/Platform";
 
-export const OS_LABEL = getCurrentOSLabel();
+export const PLATFORM = getCurrentPlatform();
 
-export function getCurrentOSLabel(): OSGroup {
+function getCurrentPlatform(): Platform {
     switch (process.platform) {
         case "win32": {
             if (
                 process.arch === "x64" ||
                 process.env.hasOwnProperty("PROCESSOR_ARCHITEW6432")
             ) {
-                return "win64";
+                return Platform.WIN64;
             }
 
-            return "win32";
+            return Platform.WIN32;
         }
         case "darwin":
+            return Platform.MACOS;
         case "linux":
-            return process.platform;
+            return Platform.LINUX;
         default: {
             throw new Error(
                 "Could not categorize your OS (win32 | win64 | darwin | linux), therefore tool installation cannot be performed"

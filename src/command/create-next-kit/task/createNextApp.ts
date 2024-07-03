@@ -1,4 +1,8 @@
-import { spawn } from "child_process";
+import assert from "assert";
+import { PROCESS_SUCESS_STATUS } from "../../../util/constant";
+import { PLATFORM } from "../../../util/platform";
+import run from "../../../util/process/run";
+import { Platform } from "../../../model/Platform";
 
 /**
  * The command provided in the package from NextJS:
@@ -8,7 +12,10 @@ import { spawn } from "child_process";
 const cmdCreateNextApp = "create-next-app";
 
 /** The command string in windows is different */
-const cmdNpm = /^win/.test(process.platform) ? "npx.cmd" : "npx";
+const cmdNpm =
+    PLATFORM == Platform.WIN32 || PLATFORM == Platform.WIN64
+        ? "npx.cmd"
+        : "npx";
 
 /**
  * Spawns a child process using the create-next-app package
@@ -26,43 +33,12 @@ const cmdNpm = /^win/.test(process.platform) ? "npx.cmd" : "npx";
  * @returns
  */
 async function createNextApp(projectDir: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        /**
-         * Spawns the child process of the create-next-app
-         * package. This is useful to not copy nor modify
-         * the external code of that package.
-         */
-        const createNextApp = spawn(cmdNpm, [cmdCreateNextApp, projectDir], {
-            /** Configure IO to link to the current main process */
-            stdio: ["pipe", process.stdout, process.stderr],
-        });
+    const status = await run(cmdNpm, [cmdCreateNextApp, projectDir]);
 
-        /**
-         * TLDR: This line is needed to render correctly the prompts from
-         * create-next-app process.
-         *
-         * Very important. It seems that the output of create-next-app
-         * command needs to write raw bytes to the main process stdin to
-         * clear the cli, handle arrow keys etc. It's just my impression
-         * when I tested this. Maybe it's because it's using the 'prompts'
-         * Nodejs library and that is doing something weird on terminal.
-         */
-        process.stdin.setRawMode(true);
-
-        /**
-         * The child proceess spawned needs to get the stdin of
-         * the main terminal receiving user inputs.
-         */
-        process.stdin.pipe(createNextApp.stdin);
-
-        createNextApp.on("close", async (status) => {
-            if (status != 0) {
-                return reject(new Error("Create next app failed: " + status));
-            }
-
-            resolve();
-        });
-    });
+    assert(
+        status === PROCESS_SUCESS_STATUS,
+        "Create next app failed: " + status
+    );
 }
 
 export default createNextApp;
