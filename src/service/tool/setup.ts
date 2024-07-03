@@ -24,7 +24,7 @@ async function setup(tool: Tool, managers: Manager[], dir: string) {
     for (const source of sources) {
         if (!(source.download.type in download)) {
             fail("tool.setup.no_type", {
-                deverr: true,
+                level: "dev",
                 params: [source.download.type],
             });
         }

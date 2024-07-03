@@ -7,14 +7,10 @@ import unzip from "../../../util/file/unzip";
 import logger from "../../../util/logger";
 
 async function download(source: Source, toolID: string, dir: string) {
-    assert(
-        source.download.type == "https",
-        "source.https.download.wrong_type",
-        {
-            deverr: true,
-            params: [toolID],
-        }
-    );
+    assert(source.download.type == "https", {
+        error: "source.https.download.wrong_type",
+        message: { level: "dev", params: [toolID] },
+    });
 
     /** Shortcut */
     const download = source.download.details;

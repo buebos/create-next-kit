@@ -10,20 +10,17 @@ async function getFlags(
     managerID: string,
     dir: string
 ): Promise<string[]> {
-    assert(
-        source.download.type == "manager",
-        "source.manager.getInstallFlags.source",
-        {
-            deverr: true,
-        }
-    );
+    assert(source.download.type == "manager", {
+        error: "source.manager.getInstallFlags.source",
+        message: { level: "dev" },
+    });
 
     const manager = await getManagerByID(managerID);
     const download = source.download.details;
 
     if (!manager) {
         fail("source.manager.getInstallFlags.match", {
-            deverr: true,
+            level: "dev",
             params: [managerID],
         });
     }

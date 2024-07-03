@@ -7,9 +7,9 @@ import { addImage } from "../../docker/addImage";
 import getInstallFlags from "./getInstallFlags";
 
 async function download(source: Source, toolID: string, dir: string) {
-    assert(source.download.type == "manager", "source.manager.download.type", {
-        deverr: true,
-        params: [toolID],
+    assert(source.download.type == "manager", {
+        error: "source.manager.download.type",
+        message: { level: "dev", params: [toolID] },
     });
 
     /** For shortcut */

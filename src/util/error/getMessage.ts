@@ -2,7 +2,10 @@ import errors from "./errors";
 
 type Options = {
     params?: string[];
-    deverr?: boolean;
+    /**
+     * The
+     */
+    level?: "dev" | "user_input";
 };
 
 function getMessage(id: keyof typeof errors, options?: Options) {
@@ -20,8 +23,14 @@ function getMessage(id: keyof typeof errors, options?: Options) {
         }
     }
 
-    if (options?.deverr) {
-        message += "\n\n" + "This is a dev error; please report.";
+    switch (options?.level) {
+        case "dev":
+            message += "\n\n" + "This is a dev error; please report.";
+
+            break;
+        case "user_input":
+        default:
+            break;
     }
 
     return message;

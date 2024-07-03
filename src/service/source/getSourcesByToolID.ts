@@ -12,8 +12,9 @@ async function getSourcesByToolID(toolID: string): Promise<Source[]> {
 
     const sources = await getSourcesPlatform();
 
-    assert(sources.length, "source.getByTool.no_available", {
-        params: [PLATFORM, toolID],
+    assert(sources.length, {
+        error: "source.getByTool.no_available",
+        message: { params: [PLATFORM, toolID] },
     });
 
     const toolSources = sources.filter((source) => {
