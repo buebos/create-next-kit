@@ -1,4 +1,4 @@
-import { Manager } from "../../model/Manager";
+import { Manager } from "../../model/data/Manager";
 import getManagers from "./getManagers";
 
 async function getByID(id: string): Promise<Manager | undefined> {

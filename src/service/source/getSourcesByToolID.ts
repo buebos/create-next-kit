@@ -1,4 +1,4 @@
-import { Source } from "../../model/Source";
+import { Source } from "../../model/data/Source";
 import assert from "../../util/error/assert";
 import { PLATFORM } from "../../util/platform";
 import getSourcesPlatform from "./getSourcesPlatform";

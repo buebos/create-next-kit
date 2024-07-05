@@ -1,5 +1,5 @@
 import sourcesAll from "../../../data/source.json";
-import { Source } from "../../model/Source";
+import { Source } from "../../model/data/Source";
 import { PLATFORM } from "../../util/platform";
 
 let cache: Source[] | null = null;

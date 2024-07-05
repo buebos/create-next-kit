@@ -1,7 +1,7 @@
 const errors = {
-    "tool.setup.sources_length": [
+    "tool.setup.no_sources": [
         "This tool: {0} does not have any sources available",
-        "with any of the requested package managers: {1}",
+        "with any of the requested package managers: {1}.",
     ],
     "tool.setup.no_type": [
         "There is no procedure to handle download type: {0}.",
@@ -25,7 +25,7 @@ const errors = {
 
     "source.getByTool.no_available": [
         "There are no available sources on the current",
-        "platform ({0}) for tool: {1}",
+        "platform ({0}) for tool: {1}.",
     ],
 
     "source.https.download.wrong_type": [

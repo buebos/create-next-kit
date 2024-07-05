@@ -1,4 +1,4 @@
-import { Source } from "../../../model/Source";
+import { Source } from "../../../model/data/Source";
 import { MANAGER_CMD_DEFAULT_INSTALL } from "../../../util/constant";
 import assert from "../../../util/error/assert";
 import fail from "../../../util/error/fail";

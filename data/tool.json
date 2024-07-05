@@ -2,72 +2,74 @@
     {
         "id": "docker",
         "label": "Docker",
-        "group": "container"
+        "section": "container",
+        "manager_id": "docker",
+        "capabilities": ["conteinarization"]
     },
 
     {
         "id": "mysql",
         "label": "MySQL",
-        "group": "database"
+        "section": "database"
     },
     {
         "id": "postgres",
         "label": "PostgreSQL",
-        "group": "database"
+        "section": "database"
     },
     {
         "id": "redis",
         "label": "Redis",
-        "group": "database"
+        "section": "database"
     },
 
     {
         "id": "prisma",
         "label": "Prisma",
-        "group": "orm"
+        "section": "orm"
     },
 
     {
         "id": "stripe_client",
         "label": "Stripe Client Library",
-        "group": "stripe"
+        "section": "stripe"
     },
     {
         "id": "stripe_react",
         "label": "Stripe React Library",
-        "group": "stripe"
+        "section": "stripe"
     },
     {
         "id": "stripe_cli",
         "label": "Stripe CLI",
-        "group": "stripe"
+        "section": "stripe"
     },
 
     {
         "id": "google_maps",
         "label": "Google Maps",
-        "group": "api_client"
+        "section": "api_client"
     },
 
     {
         "id": "facebook_auth",
         "label": "Facebook",
-        "group": "oauth_client"
+        "section": "oauth_client"
     },
     {
         "id": "github_auth",
         "label": "Github",
-        "group": "oauth_client"
+        "section": "oauth_client"
     },
     {
         "id": "google_auth",
         "label": "Google",
-        "group": "oauth_client"
+        "section": "oauth_client"
     },
 
     {
         "id": "shadcn_ui",
         "label": "ShadCN UI",
-        "group": "component_lib"
+        "section": "component_lib"
     }
 ]

@@ -1,9 +1,9 @@
 import https from "./https/download";
 import manager from "./manager/download";
 
-const download = {
+const Download = {
     https,
     manager,
 };
 
-export default download;
+export default Download;

@@ -1,4 +1,4 @@
-import { Source } from "../../../model/Source";
+import { Source } from "../../../model/data/Source";
 import { PROCESS_SUCESS_STATUS } from "../../../util/constant";
 import assert from "../../../util/error/assert";
 import fail from "../../../util/error/fail";
@@ -13,24 +13,28 @@ async function download(source: Source, toolID: string, dir: string) {
     });
 
     /** For shortcut */
-    const managerID = source.download.details.manager_id;
+    const download = source.download.details;
 
-    switch (managerID) {
+    switch (download.manager_id) {
         case "docker": {
-            await addImage(
-                { id: source.download.details.packages[0], name: toolID },
-                dir
-            );
+            for await (const imageID of download.packages) {
+                await addImage({ id: imageID, name: toolID }, dir);
+            }
 
             break;
         }
         default: {
-            const flags = await getInstallFlags(source, managerID, dir);
-            const status = await run(managerID, flags);
+            const flags = await getInstallFlags(
+                source,
+                download.manager_id,
+                dir
+            );
+
+            const status = await run(download.manager_id, flags);
 
             if (status != PROCESS_SUCESS_STATUS) {
                 fail("source.manager.download", {
-                    params: [toolID, managerID],
+                    params: [toolID, download.manager_id],
                 });
             }
 

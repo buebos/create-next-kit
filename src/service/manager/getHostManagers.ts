@@ -1,4 +1,4 @@
-import { Manager } from "../../model/Manager";
+import { Manager } from "../../model/data/Manager";
 import {
     MANAGER_CMD_DEFAULT_VERSION,
     PROCESS_SUCESS_STATUS,

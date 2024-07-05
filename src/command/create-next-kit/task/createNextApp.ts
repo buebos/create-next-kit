@@ -2,7 +2,7 @@ import assert from "assert";
 import { PROCESS_SUCESS_STATUS } from "../../../util/constant";
 import { PLATFORM } from "../../../util/platform";
 import run from "../../../util/process/run";
-import { Platform } from "../../../model/Platform";
+import { Platform } from "../../../model/data/Source";
 
 /**
  * The command provided in the package from NextJS:

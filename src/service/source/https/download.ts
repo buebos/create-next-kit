@@ -1,6 +1,6 @@
 import { mkdir, unlink } from "fs/promises";
 import path from "path";
-import { Source } from "../../../model/Source";
+import { Source } from "../../../model/data/Source";
 import assert from "../../../util/error/assert";
 import fileDownload from "../../../util/file/download";
 import unzip from "../../../util/file/unzip";

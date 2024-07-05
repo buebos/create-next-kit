@@ -1,4 +1,4 @@
-import { Platform } from "../model/Platform";
+import { Platform } from "../model/data/Source";
 
 export const PLATFORM = getCurrentPlatform();
 

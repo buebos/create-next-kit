@@ -1,4 +1,4 @@
-import { App } from "../../model/App";
+import { App } from "../../model/context/CreateNextKit";
 import initComposeFile from "../../service/docker/initComposeFile";
 import toolSetup from "../../service/tool/setup";
 import logger from "../../util/logger";
@@ -8,12 +8,9 @@ import promptAppForm from "./task/promptAppForm";
 async function main() {
     try {
         const app: App = {
-            project: {
-                dir: "my-app",
-                name: "my-app",
-            },
+            project: { dir: "my-app", name: "my-app" },
+            managers: [],
             tools: [],
-            container_strategy: null,
         };
 
         /**
@@ -34,15 +31,10 @@ async function main() {
 
         await createNextApp(app.project.dir);
 
-        switch (app.container_strategy) {
-            case "docker":
-                await initComposeFile({
-                    dir: app.project.dir,
-                    name: app.project.name,
-                });
-            default:
-                break;
-        }
+        await initComposeFile({
+            dir: app.project.dir,
+            name: app.project.name,
+        });
 
         for await (const tool of app.tools) {
             await toolSetup(tool, [], app.project.dir);

@@ -1,14 +1,14 @@
-import { Manager } from "../../model/Manager";
-import { Tool } from "../../model/Tool";
+import { Manager } from "../../model/data/Manager";
+import { Tool } from "../../model/data/Tool";
 import fail from "../../util/error/fail";
-import download from "../source/download";
+import logger from "../../util/logger";
+import Download from "../source/Download";
 import getSourcesByToolID from "../source/getSourcesByToolID";
 
 async function setup(tool: Tool, managers: Manager[], dir: string) {
     const managerIDs = managers.map((m) => m.id);
-    const sourcesAllForTool = await getSourcesByToolID(tool.id);
 
-    const sources = sourcesAllForTool.filter((source) => {
+    const sources = (await getSourcesByToolID(tool.id)).filter((source) => {
         return (
             source.download.type != "manager" ||
             managerIDs.includes(source.download.details.manager_id)
@@ -16,24 +16,19 @@ async function setup(tool: Tool, managers: Manager[], dir: string) {
     });
 
     if (!sources.length) {
-        fail("tool.setup.sources_length", {
+        fail("tool.setup.no_sources", {
             params: [tool.id, managerIDs.join(", ")],
         });
     }
 
     for (const source of sources) {
-        if (!(source.download.type in download)) {
-            fail("tool.setup.no_type", {
-                level: "dev",
-                params: [source.download.type],
-            });
-        }
-
         try {
-            await download[source.download.type](source, tool.id, dir);
+            await Download[source.download.type](source, tool.id, dir);
 
             break;
-        } catch {}
+        } catch {
+            logger.warn();
+        }
     }
 }
 
